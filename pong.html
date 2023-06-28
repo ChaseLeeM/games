@@ -7,10 +7,14 @@
             display: block;
             margin: 0 auto;
         }
+
     </style>
 </head>
 <body>
+
+<h1>Pong</h1>
 <canvas id="gameCanvas" width="500" height="500"></canvas>
+
 
 <script>
     const canvas = document.getElementById('gameCanvas');
@@ -18,7 +22,7 @@
 
     const paddleWidth = 80;
     const paddleHeight = 10;
-    const paddleX = (canvas.width - paddleWidth) / 2;
+    let paddleX = (canvas.width - paddleWidth) / 2;
     const paddleY = canvas.height - paddleHeight - 10;
     let paddleSpeed = 7;
     let paddleDirection = 0;
@@ -37,7 +41,7 @@
     function drawBall() {
         context.beginPath();
         context.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-        context.fillStyle = '#0095DD';
+        context.fillStyle = 'Red';
         context.fill();
         context.closePath();
     }
