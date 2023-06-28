@@ -1,6 +1,6 @@
-<html>
+<html lang="Eng">
 <head>
-    <title>Simple Game</title>
+    <title>Pong</title>
     <style>
         canvas {
             border: 1px solid black;
@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<canvas id="gameCanvas" width="400" height="400"></canvas>
+<canvas id="gameCanvas" width="500" height="500"></canvas>
 
 <script>
     const canvas = document.getElementById('gameCanvas');
@@ -90,15 +90,15 @@
     }
 
     function keyDownHandler(event) {
-        if (event.key === 'ArrowLeft') {
+        if (event.key === 'ArrowLeft' || event.key === 'Left') {
             paddleDirection = 'left';
-        } else if (event.key === 'ArrowRight') {
+        } else if (event.key === 'ArrowRight' || event.key === 'Right') {
             paddleDirection = 'right';
         }
     }
 
     function keyUpHandler(event) {
-        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        if (event.key === 'ArrowLeft' || event.key === 'Left' || event.key === 'ArrowRight' || event.key === 'Right') {
             paddleDirection = 0;
         }
     }
