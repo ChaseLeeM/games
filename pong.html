@@ -1,0 +1,112 @@
+<html>
+<head>
+    <title>Simple Game</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<canvas id="gameCanvas" width="400" height="400"></canvas>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const context = canvas.getContext('2d');
+
+    const paddleWidth = 80;
+    const paddleHeight = 10;
+    const paddleX = (canvas.width - paddleWidth) / 2;
+    const paddleY = canvas.height - paddleHeight - 10;
+    let paddleSpeed = 7;
+    let paddleDirection = 0;
+
+    const ballRadius = 10;
+    let ballX = canvas.width / 2;
+    let ballY = canvas.height - paddleHeight - ballRadius - 10;
+    let ballSpeedX = 3;
+    let ballSpeedY = -3;
+
+    function drawPaddle() {
+        context.fillStyle = '#0095DD';
+        context.fillRect(paddleX, paddleY, paddleWidth, paddleHeight);
+    }
+
+    function drawBall() {
+        context.beginPath();
+        context.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+        context.fillStyle = '#0095DD';
+        context.fill();
+        context.closePath();
+    }
+
+    function movePaddle() {
+        if (paddleDirection === 'left' && paddleX > 0) {
+            paddleX -= paddleSpeed;
+        } else if (paddleDirection === 'right' && paddleX < canvas.width - paddleWidth) {
+            paddleX += paddleSpeed;
+        }
+    }
+
+    function moveBall() {
+        ballX += ballSpeedX;
+        ballY += ballSpeedY;
+
+        // Ball collision with walls
+        if (ballX + ballRadius > canvas.width || ballX - ballRadius < 0) {
+            ballSpeedX = -ballSpeedX;
+        }
+        if (ballY - ballRadius < 0) {
+            ballSpeedY = -ballSpeedY;
+        }
+
+        // Ball collision with paddle
+        if (
+            ballY + ballRadius > paddleY &&
+            ballX > paddleX &&
+            ballX < paddleX + paddleWidth
+        ) {
+            ballSpeedY = -ballSpeedY;
+        }
+
+        // Game over condition
+        if (ballY + ballRadius > canvas.height) {
+            alert('Game Over');
+            document.location.reload();
+        }
+    }
+
+    function draw() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        drawPaddle();
+        drawBall();
+
+        movePaddle();
+        moveBall();
+
+        requestAnimationFrame(draw);
+    }
+
+    function keyDownHandler(event) {
+        if (event.key === 'ArrowLeft') {
+            paddleDirection = 'left';
+        } else if (event.key === 'ArrowRight') {
+            paddleDirection = 'right';
+        }
+    }
+
+    function keyUpHandler(event) {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            paddleDirection = 0;
+        }
+    }
+
+    document.addEventListener('keydown', keyDownHandler);
+    document.addEventListener('keyup', keyUpHandler);
+
+    draw();
+</script>
+</body>
+</html>
